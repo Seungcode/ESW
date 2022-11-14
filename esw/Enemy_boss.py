@@ -4,12 +4,14 @@ import cv2 as cv
 class Enemy_boss:
     def __init__(self):
         self.canvas = np.zeros((50, 50, 3), dtype = np.uint8)
+        self.health = 100
+        self.state = 'alive'
         white = (255, 255, 255)
-        yellow = (0, 255, 255)
+        yellow = (255, 255, 0)
         green = (0, 255, 0)
-        carrot = (0, 127, 255)
-        brown = (132, 184, 224)
-        brick = (34, 34, 178)
+        carrot = (255, 127, 0)
+        brown = (224, 184, 132)
+        brick = (178, 34, 34)
         cv.rectangle(self.canvas, (9, 42), (40, 20), brown, -1)
         cv.rectangle(self.canvas, (14, 20), (19, 28), white, -1)
         cv.rectangle(self.canvas, (30, 20), (35, 28), white, -1)
