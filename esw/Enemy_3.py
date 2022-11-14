@@ -4,12 +4,14 @@ import cv2 as cv
 class Enemy_3:
     def __init__(self):
         self.canvas = np.zeros((45, 45, 3), dtype = np.uint8)
+        self.health = 20
+        self.state = 'alive'
         white = (255, 255, 255)
-        yellow = (0, 255, 255)
+        yellow = (255, 255, 0)
         green = (0, 255, 0)
-        red = (0, 0, 255)
-        brown = (132, 184, 224)
-        brick = (34, 34, 178)
+        red = (255, 0, 0)
+        brown = (224, 184, 132)
+        brick = (178, 34, 34)
         cv.rectangle(self.canvas, (10, 34), (34, 14), brown, -1)
 
         cv.line(self.canvas, (9,34), (9, 13), white)
