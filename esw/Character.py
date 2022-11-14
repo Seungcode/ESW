@@ -1,116 +1,138 @@
 import numpy as np
 import cv2 as cv
-
+from BackGround import BackGround
 class Character:
-    def __init__(self, width, height):
-        self.canvas = np.zeros((255, 255, 3), dtype = np.uint8)
-        self.position = np.array([width/2 - 20, height/2 - 20, width/2 + 20, height/2 + 20])
+    def __init__(self):
+        self.canvas = np.zeros((40, 40, 3), dtype = np.uint8)
+        self.position = np.array([BackGround.center[0]/2 - 20, BackGround.center[1]/2 - 20, BackGround.center[0]/2 + 20, BackGround.center[1]/2 + 20])
         self.center = np.array([(self.position[0] + self.position[2]) / 2, (self.position[1] + self.position[3]) / 2])
         self.state = None
         white = (255, 255, 255)
         pink = (203, 192, 255)
         red = (0, 0, 255)
         #발
-        cv.line(self.canvas, (112, 139), (120, 139), white)   
-        cv.line(self.canvas, (123, 139), (131, 139), white)
+        cv.line(self.canvas, (12, 40), (20, 40), white)
+        cv.line(self.canvas, (25, 40), (33, 40), white)
 
-        cv.line(self.canvas, (111, 138), (112, 138), white)
-        cv.line(self.canvas, (120, 138), (123, 138), white)
-        cv.line(self.canvas, (131, 138), (132, 138), white)
+        cv.line(self.canvas, (12, 40), (12, 38), white)
+        cv.line(self.canvas, (33, 40), (33, 38), white)
 
-        cv.line(self.canvas, (111, 138), (111, 136), white)
-        cv.line(self.canvas, (132, 138), (132, 136), white)
+        cv.line(self.canvas, (12, 38), (18, 38), white)
+        cv.line(self.canvas, (33, 38), (27, 38), white)
 
-        cv.line(self.canvas, (111, 136), (113, 136), white)
-        cv.line(self.canvas, (130, 136), (132, 136), white)
-    
-        cv.line(self.canvas, (121, 138), (121, 135), white)
-        cv.line(self.canvas, (122, 138), (122, 135), white)
+        cv.line(self.canvas, (17, 38), (17, 37), white)
+        cv.line(self.canvas, (28, 37), (28, 38), white)
 
-        cv.line(self.canvas, (113, 135), (116, 135), white)
-        cv.line(self.canvas, (127, 135), (130, 135), white)
-        # 발 색칠 코드
-        cv.line(self.canvas, (112, 138), (119, 138), pink)
-        cv.line(self.canvas, (124, 138), (131, 138), pink)
-        cv.line(self.canvas, (112, 137), (120, 137), pink)
-        cv.line(self.canvas, (123, 137), (131, 137), pink)
-        cv.line(self.canvas, (114, 136), (120, 136), pink)
-        cv.line(self.canvas, (123, 136), (129, 136), pink)
-        cv.line(self.canvas, (117, 135), (120, 135), pink)
-        cv.line(self.canvas, (123, 135), (126, 135), pink)
-
+        cv.line(self.canvas, (20, 37), (20, 40), white)
+        cv.line(self.canvas, (25, 37), (25, 40), white)
+        #발 색칠
+        cv.line(self.canvas, (13, 39), (19, 39), pink)
+        cv.line(self.canvas, (26, 39), (32, 39), pink)
+        cv.rectangle(self.canvas, (19, 38), (20, 37), pink, -1)
+        cv.rectangle(self.canvas, (27, 38), (26, 37), pink, -1)
         #몸통
-        cv.line(self.canvas, (113, 134), (130, 134), white)
+        cv.line(self.canvas, (15, 36), (34, 36), white)
 
-        cv.line(self.canvas, (112, 133), (113, 133), white)
-        cv.line(self.canvas, (130, 133), (131, 133), white)
+        cv.line(self.canvas, (15, 36), (15, 35), white)
+        cv.line(self.canvas, (30, 36), (30, 35), white)
 
-        cv.line(self.canvas, (111, 132), (112, 132), white)
-        cv.line(self.canvas, (131, 132), (132, 132), white)
-    
-        cv.line(self.canvas, (111, 132), (111, 127), white)
-        cv.line(self.canvas, (132, 132), (132, 127), white)
+        cv.line(self.canvas, (14, 35), (15, 35), white)
+        cv.line(self.canvas, (30, 35), (31, 35), white)
 
-        cv.line(self.canvas, (111, 127), (112, 127), white)
-        cv.line(self.canvas, (132, 127), (131, 127), white)
+        cv.line(self.canvas, (14, 35), (14, 34), white)
+        cv.line(self.canvas, (31, 35), (31, 34), white)
 
-        cv.line(self.canvas, (112, 126), (113, 126), white)
-        cv.line(self.canvas, (130, 126), (131, 126), white)
+        cv.line(self.canvas, (13, 34), (14, 34), white)
+        cv.line(self.canvas, (32, 34), (31, 34), white)
 
-        cv.line(self.canvas, (113, 126), (113, 123), white)
-        cv.line(self.canvas, (130, 126), (130, 123), white)
-        #몸통 색칠 코드
-        cv.line(self.canvas, (114, 133), (129, 133), pink)
-        cv.line(self.canvas, (112, 132), (131, 132), pink)
-        cv.line(self.canvas, (112, 131), (131, 131), pink)
-        cv.line(self.canvas, (112, 130), (131, 130), pink)
-        cv.line(self.canvas, (112, 129), (131, 129), pink)
-        cv.line(self.canvas, (112, 128), (131, 128), pink)
-        cv.line(self.canvas, (113, 127), (130, 127), pink)
-        cv.line(self.canvas, (114, 126), (129, 126), pink)
-        cv.line(self.canvas, (114, 125), (129, 125), pink)
-        cv.line(self.canvas, (114, 124), (129, 124), pink)
-        cv.line(self.canvas, (114, 123), (129, 123), pink)   
+        cv.line(self.canvas, (13, 34), (13, 31), white)
+        cv.line(self.canvas, (32, 34), (32, 31), white)
+
+        cv.line(self.canvas, (14, 31), (13, 31), white)
+        cv.line(self.canvas, (31, 31), (32, 31), white)
+
+        cv.line(self.canvas, (14, 30), (14, 31), white)
+        cv.line(self.canvas, (31, 30), (31, 31), white)
+
+        cv.line(self.canvas, (14, 30), (15, 30), white)
+        cv.line(self.canvas, (31, 30), (30, 30), white)
+
+        cv.line(self.canvas, (15, 29), (15, 30), white)
+        cv.line(self.canvas, (30, 29), (30, 30), white)
+
+        cv.line(self.canvas, (15, 29), (17, 29), white)
+        cv.line(self.canvas, (30, 29), (28, 29), white)
+
+        cv.line(self.canvas, (17, 24), (17, 29), white)
+        cv.line(self.canvas, (30, 24), (30, 29), white)
+        #몸통 색칠 
+        cv.rectangle(self.canvas, (16, 35), (29, 30), pink, -1)
+        cv.rectangle(self.canvas, (18, 29), (27, 24), pink, -1)
+        cv.line(self.canvas, (15, 34), (15, 31), pink)
+        cv.line(self.canvas, (30, 34), (30, 31), pink)
+        cv.line(self.canvas, (14, 33), (14, 32), pink)
+        cv.line(self.canvas, (31, 33), (31, 32), pink)
         #꼬리
-        cv.line(self.canvas, (121, 131), (122, 131), white)
-        cv.line(self.canvas, (121, 130), (122, 130), white)  
+        cv.rectangle(self.canvas, (22, 34), (23, 33), white)
         #얼굴
-        cv.line(self.canvas, (114, 122), (129, 122), white)
+        cv.line(self.canvas, (15, 23), (30, 23), white)
 
-        cv.line(self.canvas, (114, 121), (114, 117), white)
+        cv.line(self.canvas, (15, 23), (15, 22), white)
+        cv.line(self.canvas, (30, 23), (30, 22), white)
 
-        cv.line(self.canvas, (114, 117), (116, 117), white)
+        cv.line(self.canvas, (15, 22), (14, 22), white)
+        cv.line(self.canvas, (30, 22), (31, 22), white)
 
-        cv.line(self.canvas, (116, 117), (116, 110), white)
+        cv.line(self.canvas, (14, 21), (14, 22), white)
+        cv.line(self.canvas, (31, 21), (31, 22), white)
 
-        cv.line(self.canvas, (115, 110), (116, 110), white)
+        cv.line(self.canvas, (14, 21), (13, 21), white)
+        cv.line(self.canvas, (31, 21), (32, 21), white)
 
-        cv.line(self.canvas, (114, 109), (114, 108), white)
+        cv.line(self.canvas, (13, 15), (13, 21), white)
+        cv.line(self.canvas, (32, 15), (32, 21), white)
 
-        cv.line(self.canvas, (115, 107), (119, 107), white)
+        cv.line(self.canvas, (13, 15), (14, 15), white)
+        cv.line(self.canvas, (31, 15), (32, 15), white)
 
-        cv.line(self.canvas, (119, 107), (119, 114), white)
+        cv.line(self.canvas, (14, 14), (14, 15), white)
+        cv.line(self.canvas, (31, 14), (31, 15), white)
 
-        cv.line(self.canvas, (119, 114), (126, 114), white)
+        cv.line(self.canvas, (14, 14), (16, 14), white)
+        cv.line(self.canvas, (31, 14), (29, 14), white)
 
-        cv.line(self.canvas, (126, 114), (126, 102), white)
+        cv.line(self.canvas, (16, 7), (16, 14), white)
+        cv.line(self.canvas, (14, 7), (16, 7), white)
 
-        cv.line(self.canvas, (127, 101), (128, 101), white)
+        cv.line(self.canvas, (13, 5), (13, 6), white)
 
-        cv.line(self.canvas, (129, 101), (129, 122), white)
+        cv.line(self.canvas, (14, 4), (19, 4), white)
 
-        #몸통 색칠 코드
-        cv.rectangle(self.canvas, (115,121), (128, 118), pink, -1)
-        cv.rectangle(self.canvas, (117,117), (128, 115), pink, -1)
-        cv.rectangle(self.canvas, (127,102), (128, 114), pink, -1)
-        cv.rectangle(self.canvas, (117,116), (118, 110), pink, -1)
-        cv.rectangle(self.canvas, (115,108), (118, 109), pink, -1)
+        cv.line(self.canvas, (19, 11), (19, 4), white)
 
-    cv.line(self.canvas, (124, 117), (124, 116), red)
-    cv.line(self.canvas, (126, 117), (126, 116), red)
-    cv.line(self.canvas, (123, 116), (124, 116), red)
-    cv.line(self.canvas, (126, 116), (127, 116), red)
-    cv.line(self.canvas, (123, 114), (124, 114), red)
-    cv.line(self.canvas, (126, 114), (127, 114), red)
-    cv.line(self.canvas, (124, 113), (124, 114), red)
-    cv.line(self.canvas, (126, 114), (126, 113), red)    
+        cv.line(self.canvas, (19, 11), (26, 11), white)
+
+        cv.line(self.canvas, (26, 1), (26, 11), white)
+
+        cv.line(self.canvas, (27, 0), (28, 0), white)
+
+        cv.line(self.canvas, (29, 1), (29, 14), white)
+        #몸통 색칠
+        cv.rectangle(self.canvas, (16, 22), (29, 15), pink, -1)
+        cv.rectangle(self.canvas, (17, 14), (28, 12), pink, -1)
+        cv.rectangle(self.canvas, (27, 1), (28, 11), pink, -1)
+        cv.rectangle(self.canvas, (17, 13), (18, 5), pink, -1)
+        cv.rectangle(self.canvas, (16, 6), (14, 5), pink, -1)
+        cv.line(self.canvas, (15, 23), (15, 15), pink)
+        cv.line(self.canvas, (30, 23), (30, 15), pink)
+        cv.line(self.canvas, (14, 22), (14, 16), pink)
+        cv.line(self.canvas, (31, 22), (31, 16), pink)
+        #꼬리
+        cv.line(self.canvas, (26, 10), (26, 11), red)
+        cv.line(self.canvas, (25, 11), (26, 11), red)
+        cv.line(self.canvas, (28, 10), (28, 11), red)
+        cv.line(self.canvas, (29, 11), (28, 11), red)
+        cv.line(self.canvas, (26, 14), (26, 13), red)
+        cv.line(self.canvas, (25, 13), (26, 13), red)
+        cv.line(self.canvas, (29, 14), (29, 13), red)
+        cv.line(self.canvas, (28, 13), (29, 13), red)
