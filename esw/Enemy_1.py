@@ -4,8 +4,10 @@ import cv2 as cv
 class Enemy_1:
     def __init__(self):
         self.canvas = np.zeros((25, 25, 3), dtype = np.uint8)
+        self.health = 3
+        self.state = 'alive'
         white = (255, 255, 255)
-        brown = (132, 184, 224)
+        brown = (224, 184, 132)
         cv.line(self.canvas, (6,22), (6,11),white)
         cv.line(self.canvas, (20,22), (20,11),white)
         cv.line(self.canvas, (7,11), (6,11),white)
