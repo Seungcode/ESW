@@ -13,6 +13,7 @@ class Joystick:
         self.disp = st7789.ST7789(
                     self.spi,
                     height=240,
+                    width=240,
                     y_offset=80,
                     rotation=180,
                     cs=self.cs_pin,
@@ -51,3 +52,4 @@ class Joystick:
         # Create blank image for drawing.
         # Make sure to create image with mode 'RGB' for color.
         self.width = self.disp.width
+        self.height= self.disp.height

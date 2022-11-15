@@ -6,17 +6,17 @@ import numpy as np
 from colorsys import hsv_to_rgb
 from Character import Character
 from Joystick import Joystick
-from Enemy_boss import Enemy_boss
+from Enemy_1 import Enemy_1
 def main():
     white = (255, 255, 255)
     joystick = Joystick()
-    canvas = np.zeros((240, 240, 3), dtype = np.uint8)
-    my_image = cv.rectangle(canvas, (0,0), (240,240), (255,255,255), -1)
-    enemy_1 = Character(my_image)
-    canvas = cv.resize(canvas, dsize=(640, 640), interpolation=cv.INTER_AREA)
-    canvas = canvas[200:440, 200:440].copy()
-    canvas = Image.fromarray(canvas)
-    joystick.disp.image(canvas)
+    my_image = Image.new("RGB", (joystick.width, joystick.height))
+    my_draw = ImageDraw.Draw(my_image)
+    my_draw.rectangle((0, 0, joystick.width, joystick.height), fill=(255, 255, 255, 255))
+
+    enemy_1 = Character()
+    joystick.disp.image(my_image)
+    joystick.disp.image(enemy_1.shape)
         
 
         
