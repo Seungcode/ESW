@@ -8,4 +8,5 @@ class Enemy_1:
         self.shape = Image.open("Enemy1.png").convert('RGBA')
         self.shape = Image.alpha_composite(background, self.shape)
         self.attack = np.array([position[0] + 5, position[1] + 5 , position[0] + 10, position[1] + 10])
+        self.touch = 1
         self.position = position

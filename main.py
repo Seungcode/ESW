@@ -21,6 +21,7 @@ def main():
     white = (255, 255, 255)
     joystick = Joystick()
     my_image = BackGround()
+    start_ = Image.open('start.png')
     enemy_1_1 = Enemy_1((240, 360), my_image.shape)
     my_image.shape.paste(enemy_1_1.shape, (enemy_1_1.position[0], enemy_1_1.position[1]))
     enemy_1_2 = Enemy_1((200, 330), my_image.shape)
@@ -54,9 +55,9 @@ def main():
     character_ = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
     my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
     my_image_.paste(character_.shape, (90, 130))
-    joystick.disp.image(my_image_)
+    joystick.disp.image(start_)
     start = time.time()
-    enemy=[enemy_1_1, enemy_1_2, enemy_1_3, enemy_1_4, enemy_1_5, enemy_1_6, enemy_1_7, enemy_2_1, enemy_2_2, enemy_2_3, enemy_2_4]
+    enemy=[enemy_1_1, enemy_1_2, enemy_1_3, enemy_1_4, enemy_1_5, enemy_1_6, enemy_1_7, enemy_2_1, enemy_2_2, enemy_2_3, enemy_2_4,enemy_3_1, enemy_3_2, enemy_3_3, enemy_boss]
     while True:
         command = {'move': False, 'up_pressed': False , 'down_pressed': False, 'left_pressed': False, 'right_pressed': False}
     
@@ -77,7 +78,8 @@ def main():
             command['move'] = True
         my_image.move(command)
         if character_.level < 10 and command['move']==True:
-            my_image_ = my_image.shape.crop(햣(my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+            joystick.disp.image(my_image_)
+            my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_1_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
             joystick.disp.image(my_image_)
@@ -95,6 +97,7 @@ def main():
             if character_.life <= 0:
                 exit(1)
         if character_.level > 10 and command['move']==True:
+            joystick.disp.image(my_image_)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
@@ -113,9 +116,12 @@ def main():
                 after = character_.life
                 if before != after:
                     start = time.time()
+                    print(after)
             if character_.life <= 0:
+                my_image_ = Image.open('gameover.png')
+                joystick.disp.image(my_image_)
                 exit(1)
-        joystick.disp.image(my_image_)
+    
         
         
 

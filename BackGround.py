@@ -13,7 +13,7 @@ class BackGround:
             self.state = 'move'
 
             if command['up_pressed']:
-                if(self.list[1]>0):
+                if(self.list[1]>-50):
                     self.list[1] -= 5
                 else:
                     self.list[1] = self.list[1]
