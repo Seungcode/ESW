@@ -1,16 +1,16 @@
 import numpy as np
 from PIL import Image
 
-class short_range_attack:
+class long_range_attack:
     def __init__(self,background, character):
-        background = background.crop((80, 110, 170, 200))
-        self.shape = Image.open("short.PNG").convert('RGBA')
+        background = background.crop((85, 75, 165, 155))
+        self.shape = Image.open("long.PNG").convert('RGBA')
         self.shape = Image.alpha_composite(background, self.shape)
-        self.attack = np.array([character.center[0] - 30, character.position[1] - 20 , character.center[0] + 30, character.center[1] + 30])
-        self.touch = 10
+        self.attack = np.array([character.center[0] - 10, character.position[1] - 60 , character.center[0] + 10, character.center[1] - 50])
+        self.touch = 5
         self.position = character.position
 
-    def collision_check(self, character, enemys):
+    def collision_check_long(self, character, enemys):
         for enemy in enemys:
             
             collision = self.overlap(self.attack, enemy.attack)

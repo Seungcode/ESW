@@ -17,6 +17,7 @@ from Enemy_3 import Enemy_3
 from Enemy_boss import Enemy_boss
 from BackGround import BackGround
 from short_range_attack import short_range_attack
+from long_range_attack import long_range_attack
 
 def main():
     white = (255, 255, 255)
@@ -83,10 +84,20 @@ def main():
 
         if not joystick.button_A.value:
             bullet = short_range_attack(my_image_, character)
-            my_image_.paste(bullet.shape, (90, 130))
+            my_image_.paste(bullet.shape, (80, 110))
             joystick.disp.image(my_image_)
             bullet.collision_check(character_, enemy)
             time.sleep(1.5)
+            my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+            my_image_.paste(character.shape, (90, 130))
+            joystick.disp.image(my_image_)
+
+        if not joystick.button_B.value:
+            bullet = long_range_attack(my_image_, character)
+            my_image_.paste(bullet.shape, (85, 75))
+            joystick.disp.image(my_image_)
+            bullet.collision_check_long(character_, enemy)
+            time.sleep(2.2)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             my_image_.paste(character.shape, (90, 130))
             joystick.disp.image(my_image_)
@@ -127,7 +138,7 @@ def main():
                 start = time.time()
             if character_.life <= 0:
                 exit(1)
-        if character_.level > 10 and command['move']==True:
+        if character_.level >= 10 and command['move']==True:
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
