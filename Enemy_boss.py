@@ -9,4 +9,9 @@ class Enemy_boss:
         self.shape = Image.alpha_composite(background, self.shape)
         self.attack = np.array([position[0] + 5, position[1] + 5 , position[0] + 70, position[1] +80])
         self.touch = 5
+        self.life = 100
         self.position = position
+
+    def death(self, background):
+        self.touch = 0
+        self.shape = background.crop((self.position[0], self.position[1], self.position[0]+80, self.position[1]+80))

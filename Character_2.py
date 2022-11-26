@@ -12,3 +12,4 @@ class Character_2:
         self.safe = np.array([position[0] + 10, position[1] + 5 , position[0] + 50, position[1] + 65])
         self.level = 1
         self.position = position
+        self.center = np.array([position[0]+35, position[1]+35])

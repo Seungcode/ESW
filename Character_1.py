@@ -12,6 +12,7 @@ class Character_1:
         self.safe = np.array([position[0] + 10, position[1] , position[0] + 50, position[1] + 65])
         self.level = 15
         self.position = position
+        self.center = np.array([position[0]+35, position[1]+35])
 
     def collision_check(self, character, enemys, character_):
         for enemy in enemys:
@@ -19,9 +20,8 @@ class Character_1:
             collision = self.overlap(character.safe, enemy.attack)
 
             if collision:
-                print("1")
                 character_.life -= enemy.touch
                 break
 
     def overlap(self, ego_position, other_position):
-        return (other_position[2] >ego_position[0] > other_position[0] or other_position[2]>ego_position[2] > other_position[0]) and (ego_position[1] <ego_position[1] < other_position[3] or other_position[1] <ego_position[3] < other_position[3])
+        return (other_position[2] >ego_position[0] > other_position[0] or other_position[2] >= ego_position[2] >= other_position[0]) and (ego_position[1] <= ego_position[1] <= other_position[3] or other_position[1] <= ego_position[3] <= other_position[3])
