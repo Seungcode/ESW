@@ -18,12 +18,14 @@ from Enemy_boss import Enemy_boss
 from BackGround import BackGround
 from short_range_attack import short_range_attack
 from long_range_attack import long_range_attack
+from carrot import carrot
 
 def main():
     white = (255, 255, 255)
     joystick = Joystick()
     my_image = BackGround()
     makenew = BackGround()
+    gameclearflag = 0
     start_ = Image.open('start.png')
     enemy_1_1 = Enemy_1((240, 360), my_image.shape)
     my_image.shape.paste(enemy_1_1.shape, (enemy_1_1.position[0], enemy_1_1.position[1]))
@@ -107,6 +109,10 @@ def main():
                 character_.level += 1
                 enemys.death(makenew.shape)
                 my_image.shape.paste(enemys.shape, (enemys.position[0], enemys.position[1]))
+                if enemys == enemy_boss:
+                    gameclearflag = 1
+                    fianlcarrot = carrot(enemy_boss.position, my_image)
+                    my_image.shape.paste(fianlcarrot.shape, (fianlcarrot.position[0], fianlcarrot.position[1]))
                 enemy.remove(enemys)
                 my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
                 if character_.level < 10:
@@ -137,7 +143,9 @@ def main():
                 character_.collision_check(character, enemy, character_)
                 start = time.time()
             if character_.life <= 0:
-                exit(1)
+                my_image_ = Image.open('gameover.png')
+                joystick.disp.image(my_image_)
+                exit(0)
         if character_.level >= 10 and command['move']==True:
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
@@ -160,7 +168,13 @@ def main():
             if character_.life <= 0:
                 my_image_ = Image.open('gameover.png')
                 joystick.disp.image(my_image_)
-                exit(1)
+                exit(0)
+        if gameclearflag == 1:
+            finish_ = fianlcarrot.collision_check(character)
+            if finish_:
+                my_image_ = Image.open('finish.png')
+                joystick.disp.image(my_image_)
+                exit(0)
     joystick.disp.image(my_image_)
         
         
