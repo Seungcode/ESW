@@ -7,11 +7,14 @@ class Enemy_boss:
         background = background.crop((position[0], position[1], position[0]+80, position[1]+80))
         self.shape = Image.open("EnemyBoss.PNG").convert('RGBA')
         self.shape = Image.alpha_composite(background, self.shape)
-        self.attack = np.array([position[0] + 5, position[1] + 5 , position[0] + 70, position[1] +80])
+        self.attack = np.array([position[0] + 20, position[1] + 20 , position[0] + 70, position[1] +80])
         self.touch = 5
+        self.state = 'live'
+        self.deathtime = 0
         self.life = 100
+        self.life_ = 100
         self.position = position
 
     def death(self, background):
-        self.touch = 0
+        self.state = 'death'
         self.shape = background.crop((self.position[0], self.position[1], self.position[0]+80, self.position[1]+80))

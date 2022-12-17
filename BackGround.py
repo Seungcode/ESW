@@ -7,11 +7,7 @@ class BackGround:
         self.position = (119, 259)
     def move(self, command = None):
         self.list = list(self.position)
-        if command['move'] == False:
-            self.state = None
-        else:
-            self.state = 'move'
-
+        if command['move'] == True:
             if command['up_pressed']:
                 if(self.list[1]>-50):
                     self.list[1] -= 5

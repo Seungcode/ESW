@@ -1,7 +1,5 @@
-from PIL import Image, ImageDraw, ImageFont, ImageChops, ImageOps, ImageFilter
+from PIL import Image, ImageDraw, ImageChops
 import time
-import cv2 as cv
-import random
 import numpy as np
 from colorsys import hsv_to_rgb
 from Character_1_1 import Character_1_1
@@ -19,9 +17,9 @@ from BackGround import BackGround
 from short_range_attack import short_range_attack
 from long_range_attack import long_range_attack
 from carrot import carrot
+from life import life
 
 def main():
-    white = (255, 255, 255)
     joystick = Joystick()
     my_image = BackGround()
     makenew = BackGround()
@@ -60,6 +58,8 @@ def main():
     character_ = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
     my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
     my_image_.paste(character_.shape, (90, 130))
+    lifebar = life(character_, makenew)
+    my_image_.paste(lifebar.shape, (0, 0))
     joystick.disp.image(start_)
     start = time.time()
 
@@ -87,41 +87,60 @@ def main():
         if not joystick.button_A.value:
             bullet = short_range_attack(my_image_, character)
             my_image_.paste(bullet.shape, (80, 110))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             bullet.collision_check(character_, enemy)
             time.sleep(1.5)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+            my_image_.paste(lifebar.shape, (0, 0))
             my_image_.paste(character.shape, (90, 130))
             joystick.disp.image(my_image_)
 
         if not joystick.button_B.value:
             bullet = long_range_attack(my_image_, character)
             my_image_.paste(bullet.shape, (85, 75))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             bullet.collision_check_long(character_, enemy)
             time.sleep(2.2)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
         
         for enemys in enemy:
             if enemys.life<=0:
-                character_.level += 1
-                enemys.death(makenew.shape)
-                my_image.shape.paste(enemys.shape, (enemys.position[0], enemys.position[1]))
-                if enemys == enemy_boss:
-                    gameclearflag = 1
-                    fianlcarrot = carrot(enemy_boss.position, my_image)
-                    my_image.shape.paste(fianlcarrot.shape, (fianlcarrot.position[0], fianlcarrot.position[1]))
-                enemy.remove(enemys)
-                my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
-                if character_.level < 10:
-                    character = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
-                    my_image_.paste(character.shape, (90, 130))
-                else:
-                    character = Character_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
-                    my_image_.paste(character.shape, (90, 130))
-                joystick.disp.image(my_image_)
+                if enemys.state == 'live':
+                    enemys.death(makenew.shape)
+                    enemys.deathtime = time.time()
+                    character_.level += 1
+                    my_image.shape.paste(enemys.shape_, (enemys.position[0], enemys.position[1]))
+                    if enemys == enemy_boss:
+                        gameclearflag = 1
+                        fianlcarrot = carrot(enemy_boss.position, my_image)
+                        my_image.shape.paste(fianlcarrot.shape, (fianlcarrot.position[0], fianlcarrot.position[1]))
+                    my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+                    if character_.level < 10:
+                        character = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_.paste(character.shape, (90, 130))
+                    else:
+                        character = Character_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_.paste(character.shape, (90, 130))
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_)
+            if enemys.state == 'death':
+                if time.time() - enemys.deathtime > 10:
+                    enemys.state = 'live'
+                    enemys.life = enemys.life_
+                    my_image.shape.paste(enemys.shape, (enemys.position[0], enemys.position[1]))
+                    if character_.level < 10:
+                        character = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_.paste(character.shape, (90, 130))
+                    else:
+                        character = Character_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_.paste(character.shape, (90, 130))
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_)
 
             
 
@@ -130,18 +149,29 @@ def main():
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_1_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_1_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
             end = time.time()
             if end-start>=5:
+                before = character_.life
                 character_.collision_check(character, enemy, character_)
-                start = time.time()
+                after = character_.life
+                if before != after:
+                    my_image_blank = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+                    lifebar = life(character_, makenew)
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_blank)
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_)
+                    start = time.time()
             if character_.life <= 0:
                 my_image_ = Image.open('gameover.png')
                 joystick.disp.image(my_image_)
@@ -150,20 +180,29 @@ def main():
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             joystick.disp.image(my_image_)
             my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
             character = Character_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
             my_image_.paste(character.shape, (90, 130))
+            my_image_.paste(lifebar.shape, (0, 0))
             end = time.time()
             if end-start>=5:
                 before = character_.life
                 character_.collision_check(character, enemy, character_)
                 after = character_.life
                 if before != after:
+                    my_image_blank = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
+                    lifebar = life(character_, makenew)
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_blank)
+                    my_image_.paste(lifebar.shape, (0, 0))
+                    joystick.disp.image(my_image_)
                     start = time.time()
             if character_.life <= 0:
                 my_image_ = Image.open('gameover.png')
@@ -175,6 +214,7 @@ def main():
                 my_image_ = Image.open('finish.png')
                 joystick.disp.image(my_image_)
                 exit(0)
+    my_image_.paste(lifebar.shape, (0, 0))
     joystick.disp.image(my_image_)
         
         
