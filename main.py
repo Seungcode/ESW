@@ -24,41 +24,42 @@ def main():
     my_image = BackGround()
     makenew = BackGround()
     gameclearflag = 0
+    life_count = 0
     start_ = Image.open('start.png')
     enemy_1_1 = Enemy_1((240, 360), my_image.shape)
-    my_image.shape.paste(enemy_1_1.shape, (enemy_1_1.position[0], enemy_1_1.position[1]))
+    my_image.shape.paste(enemy_1_1.shape, enemy_1_1.position)
     enemy_1_2 = Enemy_1((200, 330), my_image.shape)
-    my_image.shape.paste(enemy_1_2.shape, (enemy_1_2.position[0], enemy_1_2.position[1]))
+    my_image.shape.paste(enemy_1_2.shape, enemy_1_2.position)
     enemy_1_3 = Enemy_1((160, 360), my_image.shape)
-    my_image.shape.paste(enemy_1_3.shape, (enemy_1_3.position[0], enemy_1_3.position[1]))
+    my_image.shape.paste(enemy_1_3.shape, enemy_1_3.position)
     enemy_1_4 = Enemy_1((120, 330), my_image.shape)
-    my_image.shape.paste(enemy_1_4.shape, (enemy_1_4.position[0], enemy_1_4.position[1]))
+    my_image.shape.paste(enemy_1_4.shape, enemy_1_4.position)
     enemy_1_5 = Enemy_1((280, 330), my_image.shape)
-    my_image.shape.paste(enemy_1_5.shape, (enemy_1_5.position[0], enemy_1_5.position[1]))
+    my_image.shape.paste(enemy_1_5.shape, enemy_1_5.position)
     enemy_1_6 = Enemy_1((320, 360), my_image.shape)
-    my_image.shape.paste(enemy_1_6.shape, (enemy_1_6.position[0], enemy_1_6.position[1]))
+    my_image.shape.paste(enemy_1_6.shape, enemy_1_6.position)
     enemy_1_7 = Enemy_1((360, 330), my_image.shape)
-    my_image.shape.paste(enemy_1_7.shape, (enemy_1_7.position[0], enemy_1_7.position[1]))
+    my_image.shape.paste(enemy_1_7.shape, enemy_1_7.position)
     enemy_2_1 = Enemy_2((100, 270), my_image.shape)
-    my_image.shape.paste(enemy_2_1.shape, (enemy_2_1.position[0], enemy_2_1.position[1]))
+    my_image.shape.paste(enemy_2_1.shape, enemy_2_1.position)
     enemy_2_2 = Enemy_2((180, 270), my_image.shape)
-    my_image.shape.paste(enemy_2_2.shape, (enemy_2_2.position[0], enemy_2_2.position[1]))
+    my_image.shape.paste(enemy_2_2.shape, enemy_2_2.position)
     enemy_2_3 = Enemy_2((260, 270), my_image.shape)
-    my_image.shape.paste(enemy_2_3.shape, (enemy_2_3.position[0], enemy_2_3.position[1]))
+    my_image.shape.paste(enemy_2_3.shape, enemy_2_3.position)
     enemy_2_4 = Enemy_2((340, 270), my_image.shape)
-    my_image.shape.paste(enemy_2_4.shape, (enemy_2_4.position[0], enemy_2_4.position[1]))
+    my_image.shape.paste(enemy_2_4.shape, enemy_2_4.position)
     enemy_3_1 = Enemy_3((120, 170), my_image.shape)
-    my_image.shape.paste(enemy_3_1.shape, (enemy_3_1.position[0], enemy_3_1.position[1]))
+    my_image.shape.paste(enemy_3_1.shape, enemy_3_1.position)
     enemy_3_2 = Enemy_3((210, 170), my_image.shape)
-    my_image.shape.paste(enemy_3_2.shape, (enemy_3_2.position[0], enemy_3_2.position[1]))
+    my_image.shape.paste(enemy_3_2.shape, enemy_3_2.position)
     enemy_3_3 = Enemy_3((300, 170), my_image.shape)
-    my_image.shape.paste(enemy_3_3.shape, (enemy_3_3.position[0], enemy_3_3.position[1]))
+    my_image.shape.paste(enemy_3_3.shape, enemy_3_3.position)
     enemy_boss = Enemy_boss((210, 70), my_image.shape)
-    my_image.shape.paste(enemy_boss.shape, (enemy_boss.position[0], enemy_boss.position[1]))
+    my_image.shape.paste(enemy_boss.shape, enemy_boss.position)
     character_ = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
     my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
     my_image_.paste(character_.shape, (90, 130))
-    lifebar = life(character_, makenew)
+    lifebar = life(character_)
     my_image_.paste(lifebar.shape, (0, 0))
     joystick.disp.image(start_)
     start = time.time()
@@ -111,6 +112,7 @@ def main():
         for enemys in enemy:
             if enemys.life<=0:
                 if enemys.state == 'live':
+                    life_count += 1
                     enemys.death(makenew.shape)
                     enemys.deathtime = time.time()
                     character_.level += 1
@@ -129,15 +131,17 @@ def main():
                     my_image_.paste(lifebar.shape, (0, 0))
                     joystick.disp.image(my_image_)
             if enemys.state == 'death':
-                if time.time() - enemys.deathtime > 10:
+                if time.time() - enemys.deathtime > 30:
                     enemys.state = 'live'
                     enemys.life = enemys.life_
                     my_image.shape.paste(enemys.shape, (enemys.position[0], enemys.position[1]))
                     if character_.level < 10:
                         character = Character_1((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
                         my_image_.paste(character.shape, (90, 130))
                     else:
                         character = Character_2((my_image.position[0]+90, my_image.position[1]+130), my_image)
+                        my_image_ = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
                         my_image_.paste(character.shape, (90, 130))
                     my_image_.paste(lifebar.shape, (0, 0))
                     joystick.disp.image(my_image_)
@@ -166,7 +170,7 @@ def main():
                 after = character_.life
                 if before != after:
                     my_image_blank = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
-                    lifebar = life(character_, makenew)
+                    lifebar = life(character_)
                     my_image_.paste(lifebar.shape, (0, 0))
                     joystick.disp.image(my_image_blank)
                     my_image_.paste(lifebar.shape, (0, 0))
@@ -198,7 +202,7 @@ def main():
                 after = character_.life
                 if before != after:
                     my_image_blank = my_image.shape.crop((my_image.position[0],my_image.position[1], my_image.position[0]+240, my_image.position[1]+240))
-                    lifebar = life(character_, makenew)
+                    lifebar = life(character_)
                     my_image_.paste(lifebar.shape, (0, 0))
                     joystick.disp.image(my_image_blank)
                     my_image_.paste(lifebar.shape, (0, 0))
@@ -214,6 +218,10 @@ def main():
                 my_image_ = Image.open('finish.png')
                 joystick.disp.image(my_image_)
                 exit(0)
+        if life_count >=5 and character_.life<5:
+            character_.life += 1
+            lifebar = life(character_)
+            life_count = 0
     my_image_.paste(lifebar.shape, (0, 0))
     joystick.disp.image(my_image_)
         

@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 class life:
-    def __init__(self, character, background):
+    def __init__(self, character):
         shape_ = Image.open("life.png").convert('RGBA')
         self.shape = Image.open("life.png").convert('RGBA')
         shape = self.shape

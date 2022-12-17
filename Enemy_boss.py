@@ -17,4 +17,4 @@ class Enemy_boss:
 
     def death(self, background):
         self.state = 'death'
-        self.shape = background.crop((self.position[0], self.position[1], self.position[0]+80, self.position[1]+80))
+        self.shape_ = background.crop((self.position[0], self.position[1], self.position[0]+80, self.position[1]+80))

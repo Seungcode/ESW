@@ -9,7 +9,7 @@ class Character_1:
         self.shape = Image.open("Rabbit_1.PNG").convert('RGBA')
         self.shape = Image.alpha_composite(background, self.shape)
         self.life = 5
-        self.safe = np.array([position[0] + 10, position[1] , position[0] + 50, position[1] + 65])
+        self.safe = np.array([position[0] , position[1] , position[0] + 50, position[1] + 50])
         self.level = 1
         self.position = position
         self.center = np.array([position[0]+35, position[1]+35])
@@ -24,5 +24,5 @@ class Character_1:
                     character_.life -= enemy.touch
                     break
 
-    def overlap(self, ego_position, other_position):
-        return (other_position[2] >ego_position[0] > other_position[0] or other_position[2] >= ego_position[2] >= other_position[0]) and (ego_position[1] <= ego_position[1] <= other_position[3] or other_position[1] <= ego_position[3] <= other_position[3])
+    def overlap(self, enemys_position, my_position):
+        return (my_position[2] >enemys_position[0] > my_position[0] or my_position[2] >= enemys_position[2] >= my_position[0]) and (my_position[1] <= enemys_position[1] <= my_position[3] or my_position[1] <= enemys_position[3] <= my_position[3])
