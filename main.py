@@ -218,9 +218,10 @@ def main():
                 my_image_ = Image.open('finish.png')
                 joystick.disp.image(my_image_)
                 exit(0)
-        if life_count >=5 and character_.life<5:
-            character_.life += 1
-            lifebar = life(character_)
+        if life_count >=5:
+            if character_.life<5:
+                character_.life += 1
+                lifebar = life(character_)
             life_count = 0
     my_image_.paste(lifebar.shape, (0, 0))
     joystick.disp.image(my_image_)
